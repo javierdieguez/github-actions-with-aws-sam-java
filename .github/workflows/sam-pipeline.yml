@@ -7,11 +7,11 @@ on:
       
 jobs:
   build-deploy:
-    name: Upload to Amazon S3
+    #name: Upload to Amazon S3
     runs-on: ubuntu-latest
     
     steps:
-      - name: Checkout
+     # - name: Checkout
       - uses: actions/checkout@v3
       
       #- name: Configure Java
