@@ -49,11 +49,11 @@ jobs:
             ./**/*-aws.jar
           if-no-files-found: error
   deploy-apps:
-    needs: build-apps
-    strategy:
-      matrix:
-        include:
-          - project: card-shipment-delivery-api
+#    needs: build-apps
+#    strategy:
+#      matrix:
+#        include:
+#          - project: card-shipment-delivery-api
 #          - project: card-shipment-download-file
 #          - project: card-shipment-user-info-api
 #          - project: card-shipment-payment-info-api
