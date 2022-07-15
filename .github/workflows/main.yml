@@ -32,8 +32,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: ~/.m2/repository
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          #key: ${{ runner.os }}-maven-${{ hashFiles('./HelloWorldFunction/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 #      - name: Installing Oracle lib into local Maven repository
@@ -49,18 +48,18 @@ jobs:
             ./**/*.yaml
             ./**/*-aws.jar
           if-no-files-found: error
-#  deploy-apps:
-#    needs: build-apps
-#    strategy:
-#      matrix:
-#        include:
-#          - project: card-shipment-delivery-api
+  deploy-apps:
+    needs: build-apps
+    strategy:
+      matrix:
+        include:
+          - project: card-shipment-delivery-api
 #          - project: card-shipment-download-file
 #          - project: card-shipment-user-info-api
 #          - project: card-shipment-payment-info-api
 #          - project: card-shipment-user-info-status-job
-#    runs-on: ubuntu-latest
-#    steps:
+    runs-on: ubuntu-latest
+    steps:
       - name: Configure AWS credentials
         uses: aws-actions/configure-aws-credentials@v1
         with:
