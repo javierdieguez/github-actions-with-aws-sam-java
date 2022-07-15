@@ -33,7 +33,7 @@ jobs:
         with:
           path: ~/.m2/repository
           #key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
-          key: ${{ runner.os }}-maven-${{ hashFiles('**/HelloWorldFunction/pom.xml') }}
+          key: ${{ runner.os }}-maven-${{ hashFiles('*/HelloWorldFunction/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
 #      - name: Installing Oracle lib into local Maven repository
