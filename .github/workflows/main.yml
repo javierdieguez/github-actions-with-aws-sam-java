@@ -1,4 +1,4 @@
-name: Build and Deploy on AWS
+name: Test Build and Deploy on AWS
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: us-east-1
+          aws-region: sa-east-1
       - name: Configure environment name and variables
         id: env-name
         env:
@@ -44,27 +44,27 @@ jobs:
             ${{ runner.os }}-maven-
 #      - name: Installing Oracle lib into local Maven repository
 #        run: mvn install:install-file -Dfile=lib/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar --quiet
-      - name: Building with Maven
-        id: projects
-        run: mvn package --quiet -DskipTests
-      - name: Upload YAML template files to next step
-        uses: actions/upload-artifact@v3
-        with:
-          name: yaml
-          path: |
-            ./**/*.yaml
-            ./**/*-aws.jar
-          if-no-files-found: error
+#      - name: Building with Maven
+#        id: projects
+#        run: mvn package --quiet -DskipTests
+#      - name: Upload YAML template files to next step
+#        uses: actions/upload-artifact@v3
+#        with:
+#          name: yaml
+#          path: |
+#            ./**/*.yaml
+#            ./**/*-aws.jar
+#          if-no-files-found: error
   deploy-apps:
     needs: build-apps
-    strategy:
-      matrix:
-        include:
-          - project: card-shipment-delivery-api
-          - project: card-shipment-download-file
-          - project: card-shipment-user-info-api
-          - project: card-shipment-payment-info-api
-          - project: card-shipment-user-info-status-job
+#    strategy:
+#      matrix:
+#        include:
+#          - project: card-shipment-delivery-api
+#          - project: card-shipment-download-file
+#          - project: card-shipment-user-info-api
+#          - project: card-shipment-payment-info-api
+#          - project: card-shipment-user-info-status-job
     runs-on: ubuntu-latest
     steps:
       - name: Configure AWS credentials
