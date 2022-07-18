@@ -57,9 +57,10 @@ jobs:
           if-no-files-found: error
   deploy-apps:
     needs: build-apps
-#    strategy:
-#      matrix:
-#        include:
+    strategy:
+      matrix:
+        include:
+          - project: HelloWorldFunction
 #          - project: card-shipment-delivery-api
 #          - project: card-shipment-download-file
 #          - project: card-shipment-user-info-api
@@ -89,11 +90,11 @@ jobs:
           #AWS CloudFormation template. 
           #If you don't specify a path, the command writes the template to the standard output.
           
-#          aws cloudformation package \
-#          --template-file ${{ matrix.project }}/template.yaml \ 
-#          --s3-bucket my-bucket-to-upload-test \
-#          --output-template-file ${{ matrix.project }}/template-output.yaml
-#          echo "Maven artifacts built."
+          aws cloudformation package \
+          --template-file ${{ matrix.project }}/template.yaml \ 
+          --s3-bucket my-bucket-to-upload-test \
+          --output-template-file ${{ matrix.project }}/template-output.yaml
+          echo "Maven artifacts built."
           
          #template-file (string) The path where your AWS CloudFormation template is located.
          
@@ -112,12 +113,12 @@ jobs:
          #For new stacks, you must specify parameters that don't have a default value. 
          #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)
           
-#      - name: Deploy new ${{ matrix.project }} app
-#        run: |
-#          aws cloudformation deploy \
-#          --template-file ${{ matrix.project }}/template-output.yaml \
-#          --stack-name ${{ matrix.project }} \
-#          --capabilities CAPABILITY_IAM \
+      - name: Deploy new ${{ matrix.project }} app
+        run: |
+          aws cloudformation deploy \
+          --template-file ${{ matrix.project }}/template-output.yaml \
+          --stack-name ${{ matrix.project }} \
+          --capabilities CAPABILITY_IAM \
 #          --parameter-overrides \
 #            ENVI=PRD \
 #            ServiceName=${{ matrix.project }} \
@@ -129,3 +130,12 @@ jobs:
 #            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
 #            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
 #           DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
+
+  remove-artifacts:
+      needs: deploy-apps
+      runs-on: ubuntu-latest
+      steps:
+        - name: Remove old artifacts
+          uses: c-hive/gha-remove-artifacts@v1
+          with:
+            age: '5 seconds'
