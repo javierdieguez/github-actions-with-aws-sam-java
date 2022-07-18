@@ -28,10 +28,10 @@ jobs:
           ENVIRONMENT=`echo $REPO | tr "/" "-"`
           echo "Environment name: $ENVIRONMENT"
           echo "::set-output name=environment::$ENVIRONMENT"
-#      - name: Cache local Maven repository
-#        uses: actions/cache@v2
-#        with:
-#          path: ~/.m2/repository
+      - name: Cache local Maven repository
+        uses: actions/cache@v2
+        with:
+          path: ~/.m2/repository
 #          key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
 #          restore-keys: |
 #            ${{ runner.os }}-maven-
