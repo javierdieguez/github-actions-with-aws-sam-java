@@ -51,8 +51,8 @@ jobs:
         uses: actions/upload-artifact@v3
         with:
           name: yaml
-#          path: |
-#            ./**/*.yaml
+          path: |
+            ./**/*.yaml
 #            ./**/*-aws.jar
           if-no-files-found: error
   deploy-apps:
