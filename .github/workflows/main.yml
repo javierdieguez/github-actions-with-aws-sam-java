@@ -76,20 +76,35 @@ jobs:
           mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
           
           #(string) The path where your AWS CloudFormation template is located.
-           #--s3-bucket (string) The name of the S3 bucket where this command uploads
-           #the artifacts that are referenced in your template.
-           #output-template-file (string) The path to the file where the command writes the output
-           #AWS CloudFormation template. 
-           #If you don't specify a path, the command writes the template to the standard output.
+          #--s3-bucket (string) The name of the S3 bucket where this command uploads
+          #the artifacts that are referenced in your template.
+          #output-template-file (string) The path to the file where the command writes the output
+          #AWS CloudFormation template. 
+          #If you don't specify a path, the command writes the template to the standard output.
           
           aws cloudformation package \
           --template-file ${{ matrix.project }}/sam-main.yaml \
           --s3-bucket github-deploy-prod-aquipay-jars \
-          --output-template-file ${{ matrix.project }}/sam-main-output.yaml 
-          
-          
-          
+          --output-template-file ${{ matrix.project }}/sam-main-output.yaml
           echo "Maven artifacts built."
+          
+         #template-file (string) The path where your AWS CloudFormation template is located.
+         
+         #stack-name (string) The name of the AWS CloudFormation stack you're deploying to.
+         #If you specify an existing stack,
+         #the command updates the stack. If you specify a new stack, the command creates it.
+         
+         #capabilities (list) A list of capabilities that you must specify before
+         #AWS Cloudformation can create certain stacks. Some stack templates might include
+         #resources that can affect permissions in your AWS account, for example, by creating 
+         #new AWS Identity and Access Management (IAM) users.
+         
+         #parameter-overrides (list) A list of parameter structures that specify 
+         #input parameters for your stack template. If you're updating a stack and 
+         #you don't specify a parameter, the command uses the stack's existing value.
+         #For new stacks, you must specify parameters that don't have a default value. 
+         #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)
+          
       - name: Deploy new ${{ matrix.project }} app
         run: |
           aws cloudformation deploy \
