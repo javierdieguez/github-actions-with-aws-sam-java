@@ -41,3 +41,4 @@ jobs:
 
       - name: Deploy sam 
         run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name helloworld --s3-bucket teste-deploy-lambda-function-java --capabilities CAPABILITY_IAM --region ${{ secrets.AWS_SECRET_REGION }} 
+        
