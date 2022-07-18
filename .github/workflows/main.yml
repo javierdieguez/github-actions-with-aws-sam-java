@@ -91,7 +91,7 @@ jobs:
           #If you don't specify a path, the command writes the template to the standard output.
           
           aws cloudformation package \
-          --template-file template.yaml \ 
+          --template-file ./template.yaml \ 
           --s3-bucket my-bucket-to-upload-test-novo \
           --output-template-file template-output.packaged.yaml
           echo "Maven artifacts built."
