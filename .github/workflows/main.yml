@@ -91,9 +91,9 @@ jobs:
           
           aws cloudformation package \
           --template-file ${{ matrix.project }}/template.yaml \ 
-          --s3-bucket my-bucket-to-upload-test \
-          --output-template-file ${{ matrix.project }}/template-output.yaml
-          echo "Maven artifacts built."
+#          --s3-bucket my-bucket-to-upload-test \
+#          --output-template-file ${{ matrix.project }}/template-output.yaml
+#          echo "Maven artifacts built."
           
          #template-file (string) The path where your AWS CloudFormation template is located.
          
