@@ -90,7 +90,7 @@ jobs:
           #If you don't specify a path, the command writes the template to the standard output.
           
           aws cloudformation package \
-          --template-file ${{ matrix.project }}/template.yaml \ #troquei sam-main x template
+          --template-file ${{ matrix.project }}/template.yaml \ 
           --s3-bucket github-deploy-prod-aquipay-jars \
           --output-template-file ${{ matrix.project }}/template-output.yaml
           echo "Maven artifacts built."
