@@ -92,7 +92,7 @@ jobs:
           
           aws cloudformation package \
           --template-file ./template.yaml \ 
-#          --s3-bucket my-bucket-to-upload-test-novo \
+          --s3-bucket my-bucket-to-upload-test-novo \
 #          --output-template-file template-output.packaged.yaml
 #          echo "Maven artifacts built."
           
