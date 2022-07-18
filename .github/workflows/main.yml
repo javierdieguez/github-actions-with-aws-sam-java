@@ -90,9 +90,9 @@ jobs:
           #If you don't specify a path, the command writes the template to the standard output.
           
           aws cloudformation package \
-          --template-file ${{ matrix.project }}/sam-main.yaml \
+          --template-file ${{ matrix.project }}/template.yaml \ #troquei sam-main x template
           --s3-bucket github-deploy-prod-aquipay-jars \
-          --output-template-file ${{ matrix.project }}/sam-main-output.yaml
+          --output-template-file ${{ matrix.project }}/template-output.yaml
           echo "Maven artifacts built."
           
          #template-file (string) The path where your AWS CloudFormation template is located.
@@ -115,7 +115,7 @@ jobs:
       - name: Deploy new ${{ matrix.project }} app
         run: |
           aws cloudformation deploy \
-          --template-file ${{ matrix.project }}/sam-main-output.yaml \
+          --template-file ${{ matrix.project }}/template-output.yaml \
           --stack-name ${{ matrix.project }} \
           --capabilities CAPABILITY_IAM \
           --parameter-overrides \
