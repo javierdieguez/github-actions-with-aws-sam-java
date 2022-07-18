@@ -131,12 +131,3 @@ jobs:
 #        uses: c-hive/gha-remove-artifacts@v1
 #        with:
 #          age: '5 seconds'
-
-      - name: Build sam 
-        run: sam build --use-container
-
-# Run Unit tests- Specify unit tests here 
-
-      - name: Deploy sam 
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name helloworld-teste --s3-bucket new-deploy-lambda-function-java --capabilities CAPABILITY_IAM --region ${{ secrets.AWS_SECRET_REGION }} 
-        
