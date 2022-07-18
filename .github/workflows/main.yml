@@ -70,10 +70,10 @@ jobs:
 #        uses: actions/download-artifact@v3
 #        with:
 #          name: yaml
-#      - name: Packaging jars on AWS S3 on QA enviroment
-#        run: |
+      - name: Packaging jars on AWS S3 on QA enviroment
+        run: |
           
-#          mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
+          mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
           
            #(string) The path where your AWS CloudFormation template is located.
            #--s3-bucket (string) The name of the S3 bucket where this command uploads
@@ -131,11 +131,3 @@ jobs:
 #        uses: c-hive/gha-remove-artifacts@v1
 #        with:
 #          age: '5 seconds'
-# Deploy to AWS CloudFormation
-      - name: Deploy to AWS CloudFormation
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: test-stack
-          template: template.yaml
-          no-fail-on-empty-changeset: "1"
-         # parameter-overrides: "EC2InstanceType=t2.micro"
