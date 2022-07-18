@@ -92,7 +92,7 @@ jobs:
           
           aws cloudformation package \
           --template-file ${{ matrix.project }}/template.yaml \ 
-          --s3-bucket my-bucket-to-upload-test \
+          --s3-bucket `my-bucket-to-upload-test` \
           --output-template-file ${{ matrix.project }}/template-output.yaml
           echo "Maven artifacts built."
           
@@ -122,9 +122,9 @@ jobs:
           --parameter-overrides \
             ENVI=PRD \
             ServiceName=${{ matrix.project }} \
-            #JDBCURL=${{ secrets.JDBC_URL }} \
-            #DBUSER=${{ secrets.DB_USER }} \
-            S3BucketName=my-bucket-to-upload-test \
+#            JDBCURL=${{ secrets.JDBC_URL }} \
+#            DBUSER=${{ secrets.DB_USER }} \
+#            S3BucketName=my-bucket-to-upload-test \
 #            S3FilePath=${{ secrets.FILE_PATH }} \
 #            S3FileName=${{ secrets.FILE_NAME }} \
 #            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
