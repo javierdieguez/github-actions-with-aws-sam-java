@@ -79,7 +79,7 @@ jobs:
           name: yaml
       - name: Packaging jars on AWS S3 on QA enviroment
         run: |
-          run: echo hello!!! this is nice,or not!
+          echo hello!!! this is nice,or not!
           #mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
           
           #(string) The path where your AWS CloudFormation template is located.
