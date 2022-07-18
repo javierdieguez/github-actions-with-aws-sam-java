@@ -91,7 +91,7 @@ jobs:
           
           aws cloudformation package \
           --template-file ${{ matrix.project }}/template.yaml \ 
-          --s3-bucket github-deploy-prod-aquipay-jars \
+          --s3-bucket my-bucket-to-upload-test \
           --output-template-file ${{ matrix.project }}/template-output.yaml
           echo "Maven artifacts built."
           
