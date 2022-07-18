@@ -113,15 +113,15 @@ jobs:
          #For new stacks, you must specify parameters that don't have a default value. 
          #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)
           
-      - name: Deploy new ${{ matrix.project }} app
-        run: |
-          aws cloudformation deploy \
-          --template-file ./template.yaml \
-          --stack-name 'my-stack' \
-          --capabilities CAPABILITY_IAM \
-          --parameter-overrides \
-            ENVI=PRD \
-            ServiceName=${{ matrix.project }} \
+#      - name: Deploy new ${{ matrix.project }} app
+#        run: |
+#          aws cloudformation deploy \
+#          --template-file ./template.yaml \
+#          --stack-name 'my-stack' \
+#          --capabilities CAPABILITY_IAM \
+#          --parameter-overrides \
+#            ENVI=PRD \
+#            ServiceName=${{ matrix.project }} \
 #            JDBCURL=${{ secrets.JDBC_URL }} \
 #            DBUSER=${{ secrets.DB_USER }} \
 #            S3BucketName=my-bucket-to-upload-test \
