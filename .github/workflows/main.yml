@@ -35,8 +35,8 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-      - name: Installing Oracle lib into local Maven repository
-        run: mvn install:install-file -Dfile=lib/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar --quiet
+#      - name: Installing Oracle lib into local Maven repository
+#        run: mvn install:install-file -Dfile=lib/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar --quiet
       - name: Building with Maven
         id: projects
         run: mvn package --quiet -DskipTests
