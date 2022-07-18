@@ -116,8 +116,8 @@ jobs:
       - name: Deploy new ${{ matrix.project }} app
         run: |
           aws cloudformation deploy \
-          --template-file ${{ matrix.project }}/template-output.yaml \
-          --stack-name ${{ matrix.project }} \
+          --template-file ./template.yaml \
+          --stack-name 'my-stack' \
           --capabilities CAPABILITY_IAM \
           --parameter-overrides \
             ENVI=PRD \
