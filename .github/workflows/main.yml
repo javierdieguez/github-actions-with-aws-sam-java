@@ -106,12 +106,12 @@ jobs:
          #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)       
          
 #          echo "Maven artifacts built."
-#      - name: Deploy new ${{ matrix.project }} app
-#        run: |
-#          aws cloudformation deploy \
-#          --template-file ${{ matrix.project }}/sam-main-output.yaml \
-#          --stack-name ${{ matrix.project }} \
-#          --capabilities CAPABILITY_IAM \
+      - name: Deploy new test app
+        run: |
+          aws cloudformation deploy \
+          --template-file template.yaml \
+          --stack-name test \
+          --capabilities CAPABILITY_IAM \
 #          --parameter-overrides \
 #            ENVI=PRD \
 #            ServiceName=${{ matrix.project }} \
@@ -132,11 +132,3 @@ jobs:
 #        with:
 #          age: '5 seconds'
 
-# Deploy to AWS CloudFormation
-      - name: Deploy to AWS CloudFormation
-        uses: aws-actions/aws-cloudformation-github-deploy@v1
-        with:
-          name: tekloon-test-stack
-          template: template.yaml
-          no-fail-on-empty-changeset: "1"
-          #parameter-overrides: "EC2InstanceType=t2.micro"
