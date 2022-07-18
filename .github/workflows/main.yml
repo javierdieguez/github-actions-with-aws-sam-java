@@ -25,7 +25,7 @@ jobs:
         env:
           REPO: ${{ github.repository }}
         run: |
-#          ENVIRONMENT=`echo $REPO | tr "/" "-"`
+          ENVIRONMENT=`echo $REPO | tr "/" "-"`
 #          echo "Environment name: $ENVIRONMENT"
 #          echo "::set-output name=environment::$ENVIRONMENT"
       - name: Cache local Maven repository
