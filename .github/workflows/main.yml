@@ -75,10 +75,19 @@ jobs:
           
           mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
           
+          #(string) The path where your AWS CloudFormation template is located.
+           #--s3-bucket (string) The name of the S3 bucket where this command uploads
+           #the artifacts that are referenced in your template.
+           #output-template-file (string) The path to the file where the command writes the output
+           #AWS CloudFormation template. 
+           #If you don't specify a path, the command writes the template to the standard output.
+          
           aws cloudformation package \
           --template-file ${{ matrix.project }}/sam-main.yaml \
           --s3-bucket github-deploy-prod-aquipay-jars \
           --output-template-file ${{ matrix.project }}/sam-main-output.yaml 
+          
+          
           
           echo "Maven artifacts built."
       - name: Deploy new ${{ matrix.project }} app
