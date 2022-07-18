@@ -129,20 +129,3 @@ jobs:
 #            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
 #            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
 #           DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
-
-      - name: Build sam 
-        run: sam build --use-container
-
-# Run Unit tests- Specify unit tests here 
-
-      - name: Deploy sam 
-        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name test-deploy --s3-bucket bucket-deploy-with-aws-sam --capabilities CAPABILITY_IAM --region ${{ secrets.AWS_SECRET_REGION }} 
-        
-  remove-artifacts:
-    needs: deploy-apps
-    runs-on: ubuntu-latest
-    steps:
-      - name: Remove old artifacts
-        uses: c-hive/gha-remove-artifacts@v1
-        with:
-          age: '5 seconds'
