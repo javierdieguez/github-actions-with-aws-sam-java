@@ -24,7 +24,7 @@ jobs:
         id: env-name
         env:
           REPO: ${{ github.repository }}
-#        run: |
+        run: |
 #          ENVIRONMENT=`echo $REPO | tr "/" "-"`
 #          echo "Environment name: $ENVIRONMENT"
 #          echo "::set-output name=environment::$ENVIRONMENT"
