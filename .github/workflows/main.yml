@@ -106,12 +106,12 @@ jobs:
          #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)       
          
 #          echo "Maven artifacts built."
-      - name: Deploy new ${{ matrix.project }} app
-        run: |
-          aws cloudformation deploy \
-          --template-file ${{ matrix.project }}/sam-main-output.yaml \
-          --stack-name ${{ matrix.project }} \
-          --capabilities CAPABILITY_IAM \
+#      - name: Deploy new ${{ matrix.project }} app
+#        run: |
+#          aws cloudformation deploy \
+#          --template-file ${{ matrix.project }}/sam-main-output.yaml \
+#          --stack-name ${{ matrix.project }} \
+#          --capabilities CAPABILITY_IAM \
 #          --parameter-overrides \
 #            ENVI=PRD \
 #            ServiceName=${{ matrix.project }} \
