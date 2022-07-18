@@ -109,8 +109,8 @@ jobs:
       - name: Deploy new test app
         run: |
           aws cloudformation deploy \
-          --template-file template.yaml \
-          --stack-name test \
+          --template-file ${{ matrix.project }}/sam-main-output.yaml \
+          --stack-name ${{ matrix.project }} \
           --capabilities CAPABILITY_IAM \
 #          --parameter-overrides \
 #            ENVI=PRD \
