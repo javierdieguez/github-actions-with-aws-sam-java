@@ -119,12 +119,12 @@ jobs:
           --template-file ${{ matrix.project }}/template-output.yaml \
           --stack-name ${{ matrix.project }} \
           --capabilities CAPABILITY_IAM \
-#          --parameter-overrides \
-#            ENVI=PRD \
-#            ServiceName=${{ matrix.project }} \
-#            JDBCURL=${{ secrets.JDBC_URL }} \
-#            DBUSER=${{ secrets.DB_USER }} \
-#            S3BucketName=${{ secrets.BUCKET_NAME }} \
+          --parameter-overrides \
+            ENVI=PRD \
+            ServiceName=${{ matrix.project }} \
+            #JDBCURL=${{ secrets.JDBC_URL }} \
+            #DBUSER=${{ secrets.DB_USER }} \
+            S3BucketName=my-bucket-to-upload-test \
 #            S3FilePath=${{ secrets.FILE_PATH }} \
 #            S3FileName=${{ secrets.FILE_NAME }} \
 #            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
