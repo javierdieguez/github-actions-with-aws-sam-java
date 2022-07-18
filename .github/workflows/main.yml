@@ -1,4 +1,4 @@
-name: Build and Deploy on AWS
+name: Build and Deploy on AWS Cloudformation as aquiwallet
 
 on:
   push:
@@ -132,8 +132,11 @@ jobs:
 #        with:
 #          age: '5 seconds'
 
-      - name: Deploy CloudFormation Stack
-        uses: aws-actions/aws-cloudformation-github-deploy@v1.0.3         
-        with:
-          name: RootStack
-          template: '**/template.yml'
+      - name: Build sam 
+        run: sam build --use-container
+
+# Run Unit tests- Specify unit tests here 
+
+      - name: Deploy sam 
+        run: sam deploy --no-confirm-changeset --no-fail-on-empty-changeset --stack-name helloworld-teste --s3-bucket teste-deploy-lambda-function-java --capabilities CAPABILITY_IAM --region ${{ secrets.AWS_SECRET_REGION }} 
+        
