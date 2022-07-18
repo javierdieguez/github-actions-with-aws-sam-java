@@ -91,9 +91,9 @@ jobs:
           
           aws cloudformation package \
           --template-file ${{ matrix.project }}/template.yaml \ 
-#          --s3-bucket my-bucket-to-upload-test \
-#          --output-template-file ${{ matrix.project }}/template-output.yaml
-#          echo "Maven artifacts built."
+          --s3-bucket my-bucket-to-upload-test \
+          --output-template-file ${{ matrix.project }}/template-output.yaml
+          echo "Maven artifacts built."
           
          #template-file (string) The path where your AWS CloudFormation template is located.
          
@@ -118,17 +118,17 @@ jobs:
           --template-file ${{ matrix.project }}/template-output.yaml \
           --stack-name ${{ matrix.project }} \
           --capabilities CAPABILITY_IAM \
-          --parameter-overrides \
-            ENVI=PRD \
-            ServiceName=${{ matrix.project }} \
-            JDBCURL=${{ secrets.JDBC_URL }} \
-            DBUSER=${{ secrets.DB_USER }} \
-            S3BucketName=${{ secrets.BUCKET_NAME }} \
-            S3FilePath=${{ secrets.FILE_PATH }} \
-            S3FileName=${{ secrets.FILE_NAME }} \
-            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
-            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
-            DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
+#          --parameter-overrides \
+#            ENVI=PRD \
+#            ServiceName=${{ matrix.project }} \
+#            JDBCURL=${{ secrets.JDBC_URL }} \
+#            DBUSER=${{ secrets.DB_USER }} \
+#            S3BucketName=${{ secrets.BUCKET_NAME }} \
+#            S3FilePath=${{ secrets.FILE_PATH }} \
+#            S3FileName=${{ secrets.FILE_NAME }} \
+#            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
+#            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
+#           DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
   remove-artifacts:
     needs: deploy-apps
     runs-on: ubuntu-latest
