@@ -1,4 +1,4 @@
-name: Build and Deploy on AWS Cloudformation as aquiwallet
+name: Build and Deploy on AWS
 
 on:
   push:
@@ -19,7 +19,7 @@ jobs:
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-          aws-region: sa-east-1
+          aws-region: us-east-1
       - name: Configure environment name and variables
         id: env-name
         env:
@@ -35,99 +35,74 @@ jobs:
           key: ${{ runner.os }}-maven-${{ hashFiles('**/pom.xml') }}
           restore-keys: |
             ${{ runner.os }}-maven-
-#      - name: Installing Oracle lib into local Maven repository
-#        run: mvn install:install-file -Dfile=lib/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar --quiet
-#      - name: Building with Maven
-#        id: projects
-#        run: mvn package --quiet -DskipTests
-#      - name: Upload YAML template files to next step
-#        uses: actions/upload-artifact@v3
-#        with:
-#          name: yaml
-#          path: |
-#            ./**/*.yaml
-#            ./**/*-aws.jar
-#          if-no-files-found: error
-#  deploy-apps:
-#    needs: build-apps
-#    strategy:
-#      matrix:
-#        include:
-#          - project: card-shipment-delivery-api
-#          - project: card-shipment-download-file
-#          - project: card-shipment-user-info-api
-#          - project: card-shipment-payment-info-api
-#          - project: card-shipment-user-info-status-job
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Configure AWS credentials
-#        uses: aws-actions/configure-aws-credentials@v1
-#        with:
-#          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
-#          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
-#          aws-region: sa-east-1
-#      - name: Download YAML template files
-#        uses: actions/download-artifact@v3
-#        with:
-#          name: yaml
-#      - name: Packaging jars on AWS S3 on QA enviroment
-#        run: |
+      - name: Installing Oracle lib into local Maven repository
+        run: mvn install:install-file -Dfile=lib/ojdbc7.jar -DgroupId=com.oracle -DartifactId=ojdbc7 -Dversion=12.1.0.2 -Dpackaging=jar --quiet
+      - name: Building with Maven
+        id: projects
+        run: mvn package --quiet -DskipTests
+      - name: Upload YAML template files to next step
+        uses: actions/upload-artifact@v3
+        with:
+          name: yaml
+          path: |
+            ./**/*.yaml
+            ./**/*-aws.jar
+          if-no-files-found: error
+  deploy-apps:
+    needs: build-apps
+    strategy:
+      matrix:
+        include:
+          - project: card-shipment-delivery-api
+          - project: card-shipment-download-file
+          - project: card-shipment-user-info-api
+          - project: card-shipment-payment-info-api
+          - project: card-shipment-user-info-status-job
+    runs-on: ubuntu-latest
+    steps:
+      - name: Configure AWS credentials
+        uses: aws-actions/configure-aws-credentials@v1
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: us-east-1
+      - name: Download YAML template files
+        uses: actions/download-artifact@v3
+        with:
+          name: yaml
+      - name: Packaging jars on AWS S3 on QA enviroment
+        run: |
           
-#          mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
+          mv ${{matrix.project}}/target/*-aws.jar ${{matrix.project}}/target/app.jar 
           
-           #(string) The path where your AWS CloudFormation template is located.
-           #--s3-bucket (string) The name of the S3 bucket where this command uploads
-           #the artifacts that are referenced in your template.
-           #output-template-file (string) The path to the file where the command writes the output
-           #AWS CloudFormation template. 
-           #If you don't specify a path, the command writes the template to the standard output.
+          aws cloudformation package \
+          --template-file ${{ matrix.project }}/sam-main.yaml \
+          --s3-bucket github-deploy-prod-aquipay-jars \
+          --output-template-file ${{ matrix.project }}/sam-main-output.yaml 
           
-#         aws cloudformation package \
-#         --template-file ${{ matrix.project }}/sam-main.yaml \
-#          --s3-bucket github-deploy-prod-aquipay-jars \
-#          --output-template-file ${{ matrix.project }}/sam-main-output.yaml 
-          
-          
-         #template-file (string) The path where your AWS CloudFormation template is located.
-         
-         #stack-name (string) The name of the AWS CloudFormation stack you're deploying to.
-         #If you specify an existing stack,
-         #the command updates the stack. If you specify a new stack, the command creates it.
-         
-         #capabilities (list) A list of capabilities that you must specify before
-         #AWS Cloudformation can create certain stacks. Some stack templates might include
-         #resources that can affect permissions in your AWS account, for example, by creating 
-         #new AWS Identity and Access Management (IAM) users.
-         
-         #parameter-overrides (list) A list of parameter structures that specify 
-         #input parameters for your stack template. If you're updating a stack and 
-         #you don't specify a parameter, the command uses the stack's existing value.
-         #For new stacks, you must specify parameters that don't have a default value. 
-         #Syntax: ParameterKey1=ParameterValue1 ParameterKey2=ParameterValue2 ...(string)       
-         
-#          echo "Maven artifacts built."
-#      - name: Deploy new ${{ matrix.project }} app
-#        run: |
-#          aws cloudformation deploy \
-#          --template-file ${{ matrix.project }}/sam-main-output.yaml \
-#          --stack-name ${{ matrix.project }} \
-#          --capabilities CAPABILITY_IAM \
-#          --parameter-overrides \
-#            ENVI=PRD \
-#            ServiceName=${{ matrix.project }} \
-#            JDBCURL=${{ secrets.JDBC_URL }} \
-#            DBUSER=${{ secrets.DB_USER }} \
-#            S3BucketName=${{ secrets.BUCKET_NAME }} \
-#            S3FilePath=${{ secrets.FILE_PATH }} \
-#            S3FileName=${{ secrets.FILE_NAME }} \
-#            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
-#            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
-#            DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
-#  remove-artifacts:
-#    needs: deploy-apps
-#    runs-on: ubuntu-latest
-#    steps:
-#      - name: Remove old artifacts
-#        uses: c-hive/gha-remove-artifacts@v1
-#        with:
-#          age: '5 seconds'
+          echo "Maven artifacts built."
+      - name: Deploy new ${{ matrix.project }} app
+        run: |
+          aws cloudformation deploy \
+          --template-file ${{ matrix.project }}/sam-main-output.yaml \
+          --stack-name ${{ matrix.project }} \
+          --capabilities CAPABILITY_IAM \
+          --parameter-overrides \
+            ENVI=PRD \
+            ServiceName=${{ matrix.project }} \
+            JDBCURL=${{ secrets.JDBC_URL }} \
+            DBUSER=${{ secrets.DB_USER }} \
+            S3BucketName=${{ secrets.BUCKET_NAME }} \
+            S3FilePath=${{ secrets.FILE_PATH }} \
+            S3FileName=${{ secrets.FILE_NAME }} \
+            S3OutputPath=${{ secrets.OUTPUT_PATH }} \
+            DirectIntegrationSecret=${{ secrets.DIRECT_INTEGRATION_SECRET }} \
+            DirectIntegrationUrl=${{ secrets.DIRECT_INTEGRATION_URL }} \
+  remove-artifacts:
+    needs: deploy-apps
+    runs-on: ubuntu-latest
+    steps:
+      - name: Remove old artifacts
+        uses: c-hive/gha-remove-artifacts@v1
+        with:
+          age: '5 seconds'
